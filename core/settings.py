@@ -3,8 +3,8 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-10nrkvb9pd99*wkn32)32egva6^=jwj5(6xsk@o5r!&35ejas%'
-#SECRET_KEY = os.environ['SECRET_KEY_ENV_RAILWAY']
+#SECRET_KEY = 'django-insecure-10nrkvb9pd99*wkn32)32egva6^=jwj5(6xsk@o5r!&35ejas%'
+SECRET_KEY = os.environ['SECRET_KEY_ENV_RAILWAY']
 
 DEBUG = True
 
@@ -18,7 +18,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    #'django.contrib.staticfiles',
+    'django.contrib.staticfiles',
 ]
 
 MIDDLEWARE = [
@@ -29,6 +29,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -52,23 +53,23 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 
 # Database
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#        'NAME': os.environ["PGDATABASE"],
-#        'USER': os.environ["PGUSER"],
-#        'PASSWORD': os.environ["PGPASSWORD"],
-#        'HOST': os.environ["PGHOST"],
-#        'PORT': os.environ["PGPORT"],
-#    }
-#}
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ["PGDATABASE"],
+        'USER': os.environ["PGUSER"],
+        'PASSWORD': os.environ["PGPASSWORD"],
+        'HOST': os.environ["PGHOST"],
+        'PORT': os.environ["PGPORT"],
     }
 }
+
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': BASE_DIR / 'db.sqlite3',
+#    }
+#}
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -95,6 +96,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images) 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
